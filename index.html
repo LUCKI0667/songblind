@@ -459,6 +459,7 @@ function updateStage() {
 }
 
 function playClip() {
+
     const audio = document.getElementById("audioPlayer");
     const duration = stages[currentStage];
 
@@ -466,14 +467,17 @@ function playClip() {
     audio.currentTime = 0;
 
     audio.play().then(() => {
+
         setTimeout(() => {
             audio.pause();
             audio.currentTime = 0;
         }, duration * 1000);
+
     }).catch(error => {
         console.error("Erreur lecture audio :", error);
         alert("Erreur lecture audio : " + error.message);
     });
+
 }
  
 function normalize(text) {
