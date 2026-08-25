@@ -475,18 +475,7 @@ function playClip() {
         alert("Erreur lecture audio : " + error.message);
     });
 }
-
-    setTimeout(() => {
-        audio.pause();
-    }, stages[currentStage] * 1000);
-    if (audio.readyState >= 2) {
-        startPlayback();
-    } else {
-        audio.addEventListener("canplay", startPlayback, { once: true });
-        audio.load();
-    }
-}
-
+ 
 function normalize(text) {
 
     return text
