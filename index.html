@@ -458,8 +458,36 @@ function updateStage() {
     });
 }
 
+function playClip() {
 
+    const audio = document.getElementById("audioPlayer");
+    const duration = stages[currentStage];
 
+    audio.pause();
+
+    audio.currentTime = 0;
+
+    audio.play();
+    function startPlayback() {
+        audio.currentTime = 0;
+
+        audio.play()
+            .then(() => {
+                setTimeout(() => {
+                    audio.pause();
+                }, duration * 1000);
+            })
+            .catch(error => {
+                console.error("Erreur audio :", error);
+
+                document.getElementById("message").textContent =
+                    "⚠️ Impossible de lire le morceau.";
+            });
+    }
+
+    setTimeout(() => {
+        audio.pause();
+    }, stages[currentStage] * 1000);
     if (audio.readyState >= 2) {
         startPlayback();
     } else {
@@ -468,43 +496,7 @@ function updateStage() {
     }
 }
 
-    async function playClip() {
-
-    const audio = document.getElementById("audioPlayer");
-    const duration = stages[currentStage];
-
-    try {
-        // Arrête une éventuelle lecture précédente
-        audio.pause();
-
-        // Vérifie que le fichier audio existe bien
-        if (!audio.src) {
-            throw new Error("Aucun fichier audio chargé");
-        }
-
-        // Retour au début du morceau
-        audio.currentTime = 0;
-
-        // Lance la lecture
-        await audio.play();
-
-        // Arrête exactement après la durée du palier
-        setTimeout(() => {
-            audio.pause();
-        }, duration * 1000);
-
-        document.getElementById("message").textContent = "";
-
-    } catch (error) {
-
-        console.error(error);
-
-        document.getElementById("message").textContent =
-            "⚠️ Erreur de lecture : " + error.message;
-    }
-}
-
-    function normalize(text) {
+function normalize(text) {
 
     return text
         .toLowerCase()
