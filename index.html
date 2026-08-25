@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>SongBlind</title>
 
     <style>
@@ -21,7 +20,6 @@
         }
 
         header {
-            width: 100%;
             padding: 20px 8%;
             display: flex;
             justify-content: space-between;
@@ -37,86 +35,37 @@
             color: #a78bfa;
         }
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 25px;
-            opacity: 0.85;
+        .screen {
+            display: none;
+            max-width: 900px;
+            margin: auto;
+            padding: 50px 20px;
         }
 
-        nav a:hover {
-            opacity: 1;
+        .screen.active {
+            display: block;
         }
 
-        .hero {
-            min-height: 70vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        h1, h2 {
             text-align: center;
-            padding: 40px 20px;
         }
 
-        .hero-content {
-            max-width: 750px;
-        }
-
-        .hero h1 {
-            font-size: 64px;
-            margin-bottom: 20px;
-        }
-
-        .hero h1 span {
-            color: #a78bfa;
-        }
-
-        .hero p {
-            font-size: 20px;
-            line-height: 1.6;
-            color: #d1d5db;
-            margin-bottom: 35px;
-        }
-
-        .play-button {
-            display: inline-block;
-            background: #8b5cf6;
-            color: white;
-            text-decoration: none;
-            border: none;
-            border-radius: 14px;
-            padding: 18px 40px;
-            font-size: 22px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .play-button:hover {
-            transform: scale(1.05);
-            background: #7c3aed;
-        }
-
-        .categories {
-            padding: 40px 8% 80px;
-        }
-
-        .categories h2 {
+        .subtitle {
             text-align: center;
-            font-size: 32px;
-            margin-bottom: 35px;
+            color: #cbd5e1;
+            margin-top: 15px;
+            margin-bottom: 40px;
         }
 
         .category-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 20px;
-            max-width: 1100px;
-            margin: auto;
         }
 
         .category-card {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
             border-radius: 18px;
             padding: 30px 20px;
             text-align: center;
@@ -126,7 +75,7 @@
 
         .category-card:hover {
             transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.14);
+            background: rgba(255,255,255,0.14);
         }
 
         .category-icon {
@@ -134,37 +83,159 @@
             margin-bottom: 15px;
         }
 
-        .category-card h3 {
-            margin-bottom: 8px;
+        .game-card {
+            max-width: 650px;
+            margin: auto;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 24px;
+            padding: 35px;
         }
 
-        .category-card p {
-            color: #cbd5e1;
-            font-size: 14px;
+        .top-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            color: #d1d5db;
         }
 
-        footer {
+        .stage {
             text-align: center;
-            padding: 25px;
-            color: #9ca3af;
-            font-size: 14px;
+            margin-bottom: 30px;
         }
 
-        @media (max-width: 700px) {
-            header {
-                padding: 20px;
+        .stage-time {
+            font-size: 64px;
+            font-weight: bold;
+            color: #a78bfa;
+        }
+
+        .stage-label {
+            color: #cbd5e1;
+            margin-top: 5px;
+        }
+
+        .progress {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .progress-step {
+            width: 55px;
+            height: 8px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.15);
+        }
+
+        .progress-step.active {
+            background: #8b5cf6;
+        }
+
+        .listen-button {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 14px;
+            background: #8b5cf6;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 25px;
+        }
+
+        .listen-button:hover {
+            background: #7c3aed;
+        }
+
+        .answer-input {
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: none;
+            font-size: 17px;
+            margin-bottom: 15px;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .validate-button,
+        .skip-button,
+        .giveup-button,
+        .next-button {
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .validate-button {
+            background: #16a34a;
+        }
+
+        .skip-button {
+            background: #2563eb;
+        }
+
+        .giveup-button {
+            background: #dc2626;
+            width: 100%;
+            margin-top: 12px;
+        }
+
+        .message {
+            text-align: center;
+            min-height: 30px;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .reveal {
+            display: none;
+            margin-top: 25px;
+            text-align: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 16px;
+        }
+
+        .reveal h3 {
+            margin-bottom: 10px;
+        }
+
+        .next-button {
+            background: #8b5cf6;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+            color: #c4b5fd;
+            cursor: pointer;
+        }
+
+        @media(max-width: 600px) {
+            .stage-time {
+                font-size: 48px;
             }
 
-            nav {
-                display: none;
-            }
-
-            .hero h1 {
-                font-size: 44px;
-            }
-
-            .hero p {
-                font-size: 17px;
+            .buttons {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -174,97 +245,323 @@
 
 <header>
     <div class="logo">🎵 Song<span>Blind</span></div>
-
-    <nav>
-        <a href="#">Accueil</a>
-        <a href="#categories">Catégories</a>
-        <a href="#">Classement</a>
-    </nav>
 </header>
 
+<section id="homeScreen" class="screen active">
 
-<section class="hero">
+    <h1>Choisis une catégorie</h1>
 
-    <div class="hero-content">
-
-        <h1>Teste ta <span>culture musicale</span></h1>
-
-        <p>
-            Reconnais les morceaux le plus vite possible,
-            affronte tes amis et découvre des centaines de chansons.
-        </p>
-
-        <a href="#categories" class="play-button">
-            ▶ Jouer maintenant
-        </a>
-
-    </div>
-
-</section>
-
-
-<section class="categories" id="categories">
-
-    <h2>Choisis une catégorie</h2>
+    <p class="subtitle">
+        Trouve la chanson avec le moins de temps d'écoute possible.
+    </p>
 
     <div class="category-grid">
 
-        <div class="category-card">
+        <div class="category-card" onclick="startCategory('Variété française')">
             <div class="category-icon">🇫🇷</div>
             <h3>Variété française</h3>
-            <p>Les classiques et les grands tubes français.</p>
         </div>
 
-        <div class="category-card">
+        <div class="category-card" onclick="startCategory('Rap français')">
             <div class="category-icon">🎤</div>
             <h3>Rap français</h3>
-            <p>Du rap old school aux morceaux récents.</p>
         </div>
 
-        <div class="category-card">
+        <div class="category-card" onclick="startCategory('International')">
             <div class="category-icon">🌍</div>
             <h3>International</h3>
-            <p>Les plus gros hits venus du monde entier.</p>
-        </div>
-
-        <div class="category-card">
-            <div class="category-icon">💿</div>
-            <h3>Années 80</h3>
-            <p>Les morceaux cultes des années 80.</p>
-        </div>
-
-        <div class="category-card">
-            <div class="category-icon">📼</div>
-            <h3>Années 90</h3>
-            <p>Pop, dance, rock et tubes incontournables.</p>
-        </div>
-
-        <div class="category-card">
-            <div class="category-icon">🔥</div>
-            <h3>Années 2000</h3>
-            <p>Retour sur les hits des années 2000.</p>
-        </div>
-
-        <div class="category-card">
-            <div class="category-icon">📱</div>
-            <h3>Années 2010</h3>
-            <p>Les chansons qui ont marqué les années 2010.</p>
-        </div>
-
-        <div class="category-card">
-            <div class="category-icon">🚀</div>
-            <h3>Années 2020</h3>
-            <p>Les hits les plus récents.</p>
         </div>
 
     </div>
 
 </section>
 
+<section id="gameScreen" class="screen">
 
-<footer>
-    SongBlind — Blind test musical
-</footer>
+    <div class="game-card">
+
+        <div class="top-info">
+            <div id="categoryName">Catégorie</div>
+            <div>Score : <span id="score">0</span></div>
+        </div>
+
+        <div class="stage">
+            <div class="stage-time" id="stageTime">0,1 s</div>
+            <div class="stage-label">Temps d'écoute disponible</div>
+        </div>
+
+        <div class="progress">
+            <div class="progress-step"></div>
+            <div class="progress-step"></div>
+            <div class="progress-step"></div>
+            <div class="progress-step"></div>
+            <div class="progress-step"></div>
+        </div>
+
+        <button class="listen-button" onclick="playClip()">
+            ▶ Écouter l'extrait
+        </button>
+
+        <input
+            type="text"
+            id="answerInput"
+            class="answer-input"
+            placeholder="Titre ou artiste..."
+        >
+
+        <div class="buttons">
+
+            <button class="validate-button" onclick="checkAnswer()">
+                ✓ Valider
+            </button>
+
+            <button class="skip-button" onclick="skipStage()">
+                ⏭ Skip
+            </button>
+
+        </div>
+
+        <button class="giveup-button" onclick="giveUp()">
+            Abandonner
+        </button>
+
+        <div class="message" id="message"></div>
+
+        <div class="reveal" id="reveal">
+            <h3>La réponse était :</h3>
+            <div id="revealText"></div>
+
+            <button class="next-button" onclick="nextSong()">
+                Morceau suivant →
+            </button>
+        </div>
+
+        <span class="back" onclick="goHome()">
+            ← Retour aux catégories
+        </span>
+
+    </div>
+
+</section>
+
+<audio id="audioPlayer"></audio>
+
+<script>
+
+const stages = [0.1, 0.5, 5, 8, 15];
+const stageScores = [5, 4, 3, 2, 1];
+
+let currentStage = 0;
+let score = 0;
+let currentSong = null;
+let currentCategory = "";
+
+/*
+    TU AJOUTERAS TES CHANSONS ICI
+
+    "file" = chemin du fichier mp3
+    "title" = titre
+    "artist" = artiste
+    "category" = catégorie
+*/
+
+const songs = [
+
+    {
+        title: "Musique Test 1",
+        artist: "Artiste Test",
+        category: "Variété française",
+        file: "audio/chanson1.mp3"
+    },
+
+    {
+        title: "Musique Test 2",
+        artist: "Artiste Test",
+        category: "Variété française",
+        file: "audio/chanson2.mp3"
+    },
+
+    {
+        title: "Rap Test",
+        artist: "Rappeur Test",
+        category: "Rap français",
+        file: "audio/chanson3.mp3"
+    }
+
+];
+
+function startCategory(category) {
+
+    currentCategory = category;
+
+    document.getElementById("homeScreen").classList.remove("active");
+    document.getElementById("gameScreen").classList.add("active");
+
+    document.getElementById("categoryName").textContent = category;
+
+    score = 0;
+    document.getElementById("score").textContent = score;
+
+    nextSong();
+}
+
+function nextSong() {
+
+    const availableSongs = songs.filter(
+        song => song.category === currentCategory
+    );
+
+    if (availableSongs.length === 0) {
+        alert("Aucune chanson disponible dans cette catégorie pour l'instant.");
+        goHome();
+        return;
+    }
+
+    currentSong =
+        availableSongs[Math.floor(Math.random() * availableSongs.length)];
+
+    currentStage = 0;
+
+    document.getElementById("audioPlayer").src = currentSong.file;
+
+    document.getElementById("answerInput").value = "";
+
+    document.getElementById("message").textContent = "";
+
+    document.getElementById("reveal").style.display = "none";
+
+    document.getElementById("answerInput").disabled = false;
+
+    updateStage();
+}
+
+function updateStage() {
+
+    document.getElementById("stageTime").textContent =
+        stages[currentStage].toString().replace(".", ",") + " s";
+
+    const steps = document.querySelectorAll(".progress-step");
+
+    steps.forEach((step, index) => {
+        if (index <= currentStage) {
+            step.classList.add("active");
+        } else {
+            step.classList.remove("active");
+        }
+    });
+}
+
+function playClip() {
+
+    const audio = document.getElementById("audioPlayer");
+
+    audio.pause();
+
+    audio.currentTime = 0;
+
+    audio.play();
+
+    setTimeout(() => {
+        audio.pause();
+    }, stages[currentStage] * 1000);
+}
+
+function normalize(text) {
+
+    return text
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^\w\s]/g, "")
+        .trim();
+}
+
+function checkAnswer() {
+
+    const answer =
+        normalize(document.getElementById("answerInput").value);
+
+    const title = normalize(currentSong.title);
+    const artist = normalize(currentSong.artist);
+
+    if (!answer) {
+        document.getElementById("message").textContent =
+            "Entre une réponse.";
+        return;
+    }
+
+    if (
+        answer === title ||
+        answer === artist ||
+        answer.includes(title) ||
+        answer.includes(artist)
+    ) {
+
+        const points = stageScores[currentStage];
+
+        score += points;
+
+        document.getElementById("score").textContent = score;
+
+        document.getElementById("message").textContent =
+            "✅ Bonne réponse ! +" + points + " points";
+
+        revealSong();
+
+    } else {
+
+        document.getElementById("message").textContent =
+            "❌ Mauvaise réponse";
+    }
+}
+
+function skipStage() {
+
+    if (currentStage < stages.length - 1) {
+
+        currentStage++;
+
+        document.getElementById("message").textContent = "";
+
+        updateStage();
+
+    } else {
+
+        revealSong();
+    }
+}
+
+function giveUp() {
+
+    document.getElementById("message").textContent =
+        "😢 Abandon";
+
+    revealSong();
+}
+
+function revealSong() {
+
+    const audio = document.getElementById("audioPlayer");
+
+    audio.pause();
+
+    document.getElementById("answerInput").disabled = true;
+
+    document.getElementById("revealText").textContent =
+        currentSong.artist + " — " + currentSong.title;
+
+    document.getElementById("reveal").style.display = "block";
+}
+
+function goHome() {
+
+    document.getElementById("audioPlayer").pause();
+
+    document.getElementById("gameScreen").classList.remove("active");
+    document.getElementById("homeScreen").classList.add("active");
+}
+
+</script>
 
 </body>
 </html>
