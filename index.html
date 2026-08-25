@@ -468,10 +468,12 @@ function playClip() {
 
     audio.play().then(() => {
 
+        const stopAfter = duration === 0.1 ? 180 : duration * 1000;
+
         setTimeout(() => {
             audio.pause();
             audio.currentTime = 0;
-        }, duration * 1000);
+        }, stopAfter);
 
     }).catch(error => {
         console.error("Erreur lecture audio :", error);
