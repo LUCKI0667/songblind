@@ -706,31 +706,6 @@ function checkAnswer() {
     }
 }
 
-    if (
-        answer === title ||
-        answer === artist ||
-        answer.includes(title) ||
-        answer.includes(artist)
-    ) {
-
-        const points = stageScores[currentStage];
-
-        score += points;
-
-        document.getElementById("score").textContent = score;
-
-        document.getElementById("message").textContent =
-            "✅ Bonne réponse ! +" + points + " points";
-
-        revealSong();
-
-    } else {
-
-        document.getElementById("message").textContent =
-            "❌ Mauvaise réponse";
-    }
-}
-
 function skipStage() {
 
     if (currentStage < stages.length - 1) {
