@@ -7,11 +7,34 @@
 
     <style>
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, Helvetica, sans-serif;
-        }
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Suggestions de recherche */
+
+.search-container {
+    position: relative;
+}
+
+.suggestions {
+    display: none;
+    position: absolute;
+    top: 55px;
+    left: 0;
+    right: 0;
+
+    background: #1f2937;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+
+    max-height: 230px;
+    overflow-y: auto;
+
+    z-index: 100;
+}
 
         body {
             min-height: 100vh;
@@ -276,7 +299,33 @@
 
 </section>
 
-<section id="gameScreen" class="screen">
+    <section id="modeScreen" class="screen">
+
+    <h1>Choisis ton mode</h1>
+
+    <p class="subtitle">
+        Qu'est-ce que tu veux retrouver ?
+    </p>
+
+    <div class="category-grid">
+
+        <div class="category-card" onclick="selectMode('title')">
+            <div class="category-icon">🎵</div>
+            <h3>Trouver le titre</h3>
+            <p>Retrouve le nom de la chanson.</p>
+        </div>
+
+        <div class="category-card" onclick="selectMode('artist')">
+            <div class="category-icon">🎤</div>
+            <h3>Trouver l'artiste</h3>
+            <p>Retrouve l'artiste ou le groupe.</p>
+        </div>
+
+    </div>
+
+</section>
+
+    <section id="gameScreen" class="screen">
 
     <div class="game-card">
 
@@ -302,12 +351,20 @@
             ▶ Écouter l'extrait
         </button>
 
-        <input
-            type="text"
-            id="answerInput"
-            class="answer-input"
-            placeholder="Titre ou artiste..."
-        >
+<div class="search-container">
+
+    <input
+        type="text"
+        id="answerInput"
+        class="answer-input"
+        placeholder="Rechercher..."
+        autocomplete="off"
+        oninput="showSuggestions()"
+    >
+
+    <div id="suggestions" class="suggestions"></div>
+
+</div>
 
         <div class="buttons">
 
@@ -355,6 +412,7 @@ let currentStage = 0;
 let score = 0;
 let currentSong = null;
 let currentCategory = "";
+let gameMode = "";
 
 /*
     TU AJOUTERAS TES CHANSONS ICI
@@ -402,15 +460,36 @@ function startCategory(category) {
     currentCategory = category;
 
     document.getElementById("homeScreen").classList.remove("active");
+    document.getElementById("modeScreen").classList.add("active");
+}
+
+ function selectMode(mode) {
+
+    gameMode = mode;
+
+    document.getElementById("modeScreen").classList.remove("active");
     document.getElementById("gameScreen").classList.add("active");
 
-    document.getElementById("categoryName").textContent = category;
+    document.getElementById("categoryName").textContent =
+        currentCategory;
+
+    if (gameMode === "title") {
+
+        document.getElementById("answerInput").placeholder =
+            "Titre ou artiste...";
+
+    } else {
+
+        document.getElementById("answerInput").placeholder =
+            "Nom de l'artiste...";
+    }
 
     score = 0;
+
     document.getElementById("score").textContent = score;
 
     nextSong();
-}
+}   
 
 function nextSong() {
 
@@ -492,19 +571,140 @@ function normalize(text) {
         .trim();
 }
 
+function showSuggestions() {
+
+    const input = document.getElementById("answerInput");
+    const suggestionsBox = document.getElementById("suggestions");
+
+    const search = normalize(input.value);
+
+    suggestionsBox.innerHTML = "";
+
+    if (search.length < 1) {
+        suggestionsBox.style.display = "none";
+        return;
+    }
+
+    let results = [];
+
+    if (gameMode === "title") {
+
+        results = songs.filter(song => {
+
+            return (
+                normalize(song.title).includes(search) ||
+                normalize(song.artist).includes(search)
+            );
+
+        });
+
+    } else {
+
+        const artists = [...new Set(
+            songs.map(song => song.artist)
+        )];
+
+        results = artists.filter(artist =>
+            normalize(artist).includes(search)
+        );
+    }
+
+    results = results.slice(0, 8);
+
+    if (results.length === 0) {
+        suggestionsBox.style.display = "none";
+        return;
+    }
+
+    results.forEach(result => {
+
+        const div = document.createElement("div");
+        div.className = "suggestion";
+
+        if (gameMode === "title") {
+
+            div.innerHTML =
+                '<div class="suggestion-title">' +
+                result.title +
+                '</div>' +
+                '<div class="suggestion-artist">' +
+                result.artist +
+                '</div>';
+
+            div.onclick = function() {
+
+                input.value = result.title;
+
+                suggestionsBox.style.display = "none";
+            };
+
+        } else {
+
+            div.innerHTML =
+                '<div class="suggestion-title">' +
+                result +
+                '</div>';
+
+            div.onclick = function() {
+
+                input.value = result;
+
+                suggestionsBox.style.display = "none";
+            };
+        }
+
+        suggestionsBox.appendChild(div);
+    });
+
+    suggestionsBox.style.display = "block";
+}
+
 function checkAnswer() {
 
     const answer =
         normalize(document.getElementById("answerInput").value);
 
-    const title = normalize(currentSong.title);
-    const artist = normalize(currentSong.artist);
-
     if (!answer) {
+
         document.getElementById("message").textContent =
             "Entre une réponse.";
+
         return;
     }
+
+    let correctAnswer;
+
+    if (gameMode === "title") {
+
+        correctAnswer = normalize(currentSong.title);
+
+    } else {
+
+        correctAnswer = normalize(currentSong.artist);
+    }
+
+    if (answer === correctAnswer) {
+
+        const points = stageScores[currentStage];
+
+        score += points;
+
+        document.getElementById("score").textContent = score;
+
+        document.getElementById("message").textContent =
+            "✅ Bonne réponse ! +" + points + " points";
+
+        document.getElementById("suggestions").style.display =
+            "none";
+
+        revealSong();
+
+    } else {
+
+        document.getElementById("message").textContent =
+            "❌ Mauvaise réponse";
+    }
+}
 
     if (
         answer === title ||
